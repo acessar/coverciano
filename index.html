@@ -56,12 +56,33 @@
       linear-gradient(175deg, #1A4F70 0%, #2A6FA0 35%, #3B8FBF 65%, #1A4F70 100%);
   }
 
-  main {
-    position: relative; z-index: 1;
-    min-height: 100dvh;
+  /* ── SCREENS ── */
+  .screen {
+    position: fixed; inset: 0; z-index: 1;
     display: flex; flex-direction: column;
-    padding: 0 20px;
+    overflow-y: auto; overflow-x: hidden;
+    transition: transform 420ms var(--ease-in-out), opacity 380ms var(--ease-in-out);
+    will-change: transform, opacity;
+  }
+  .screen-home {
+    transform: translateX(0); opacity: 1;
+  }
+  .screen-home.slide-out {
+    transform: translateX(-100%); opacity: 0; pointer-events: none;
+  }
+  .screen-form {
+    transform: translateX(100%); opacity: 0; pointer-events: none;
+  }
+  .screen-form.slide-in {
+    transform: translateX(0); opacity: 1; pointer-events: auto;
+  }
+
+  /* ── HOME SCREEN ── */
+  .home-inner {
     max-width: 520px; margin: 0 auto;
+    padding: 0 20px; width: 100%;
+    display: flex; flex-direction: column;
+    min-height: 100dvh;
   }
 
   .cover-section {
@@ -171,10 +192,10 @@
     letter-spacing: 0.04em; line-height: 1; margin-bottom: 9px;
   }
   .profile-tagline {
-    font-family: var(--font-body); font-size: 14px; font-weight: 300;
-    line-height: 1.65; color: rgba(61, 186, 255, 0.78); letter-spacing: 0.02em;
+    font-family: var(--font-body); font-size: 14px; font-weight: 400;
+    line-height: 1.65; color: rgba(255, 255, 255, 0.82); letter-spacing: 0.02em;
   }
-  .profile-tagline em { font-style: normal; color: rgba(178, 235, 242, 0.95); font-weight: 400; }
+  .profile-tagline em { font-style: normal; color: rgba(178, 235, 242, 0.98); font-weight: 500; }
 
   .section-divider { display: flex; align-items: center; gap: 14px; margin: 28px 0; }
   .divider-line {
@@ -262,9 +283,9 @@
   }
   .pro-avatar-placeholder span { font-family: var(--font-display); font-size: 20px; font-weight: 400; color: rgba(224, 249, 255, 0.88); font-style: italic; }
   .pro-info { flex: 1; text-align: left; }
-  .pro-role { font-family: var(--font-body); font-size: 9.5px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); margin-bottom: 3px; }
+  .pro-role { font-family: var(--font-body); font-size: 9.5px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255, 255, 255, 0.90); margin-bottom: 3px; }
   .pro-name { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: rgba(255, 255, 255, 0.98); letter-spacing: 0.01em; line-height: 1; margin-bottom: 3px; }
-  .pro-action { font-family: var(--font-body); font-size: 11px; font-weight: 300; color: rgba(255, 255, 255, 0.75); letter-spacing: 0.04em; }
+  .pro-action { font-family: var(--font-body); font-size: 11px; font-weight: 400; color: rgba(255, 255, 255, 0.88); letter-spacing: 0.04em; }
   .pro-arrow { flex-shrink: 0; opacity: 0.45; transition: opacity 200ms, transform 200ms; }
   .pro-btn:hover .pro-arrow { opacity: 0.90; transform: translateX(2px); }
 
@@ -293,12 +314,6 @@
   .insta-role { font-family: var(--font-body); font-size: 9.5px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,220,240,0.65); margin-bottom: 2px; }
   .insta-name { font-family: var(--font-body); font-size: 14px; font-weight: 400; color: rgba(255,240,250,0.92); letter-spacing: 0.06em; }
 
-  .services-section { margin-bottom: 28px; }
-  .services-label { font-family: var(--font-body); font-size: 9.5px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); margin-bottom: 12px; }
-  .services-chips { display: flex; flex-wrap: wrap; gap: 7px; }
-  .chip { font-family: var(--font-body); font-size: 15px; font-weight: 400; color: rgba(255, 255, 255, 0.94); padding: 10px 20px; border: 1px solid rgba(61, 186, 255, 0.48); border-radius: 2px; letter-spacing: 0.04em; background: rgba(61, 186, 255, 0.82); cursor: default; transition: all 180ms; }
-  .chip:hover { background: rgba(61, 186, 255, 1); border-color: rgba(61, 186, 255, 0.72); color: rgba(255, 255, 255, 1); }
-
   .location-section { padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.15); margin-bottom: 32px; }
   .location-label { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); margin-bottom: 10px; }
   .location-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
@@ -307,103 +322,177 @@
   .copy-btn:hover { border-color: rgba(61, 186, 255, 0.80); color: rgba(255, 255, 255, 1); background: rgba(61, 186, 255, 0.18); }
   .copy-btn.copied { border-color: rgba(90, 180, 100, 0.5); color: rgba(140, 220, 140, 0.85); background: rgba(50, 120, 60, 0.08); }
 
-  footer { padding: 16px 0 28px; display: flex; align-items: center; justify-content: space-between; opacity: 0.38; }
+  footer { padding: 16px 0 28px; display: flex; align-items: center; justify-content: space-between; opacity: 0.38; margin-top: auto; }
   .footer-text { font-size: 9px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--parchment); }
   .footer-ornament { display: flex; gap: 4px; align-items: center; }
   .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--primary-glow); }
 
-  .sheet-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(13, 47, 66, 0); pointer-events: none; transition: background 300ms var(--ease-in-out); }
-  .sheet-overlay.open { background: rgba(13, 47, 66, 0.85); pointer-events: auto; }
-  .sheet {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 101;
-    background: linear-gradient(170deg, #0D2F42 0%, #1B4A62 40%, #0D2F42 100%);
-    border-top: 1px solid rgba(0, 100, 160, 0.4); border-radius: 16px 16px 0 0;
-    padding: 0 20px 32px; max-height: 92dvh; overflow-y: auto; -webkit-overflow-scrolling: touch;
-    transform: translateY(100%); transition: transform 380ms var(--ease-out);
-    box-shadow: 0 -8px 40px rgba(13, 47, 66, 0.60), 0 -1px 0 rgba(0, 150, 200, 0.20);
+  /* ── FORM SCREEN ── */
+  .form-screen-inner {
+    max-width: 520px; margin: 0 auto;
+    padding: 0 20px; width: 100%;
+    display: flex; flex-direction: column;
+    min-height: 100dvh;
   }
-  .sheet-overlay.open .sheet { transform: translateY(0); }
-  @media (min-width: 600px) {
-    .sheet { bottom: auto; top: 50%; left: 50%; right: auto; margin: 0; width: 440px; max-height: 90vh; border-radius: 8px; border: 1px solid rgba(0, 100, 160, 0.4); opacity: 0; transform: translate(-50%, -44%) scale(0.96); transition: transform 320ms var(--ease-out), opacity 320ms var(--ease-out); }
-    .sheet-overlay.open .sheet { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    .sheet-handle { display: none; }
-  }
-  .sheet-handle { display: flex; justify-content: center; padding: 14px 0 0; cursor: pointer; }
-  .sheet-handle-bar { width: 36px; height: 3px; background: rgba(61, 186, 255, 0.30); border-radius: 2px; }
-  .sheet-header { padding: 20px 0 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.15); margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; }
-  .sheet-title { font-family: var(--font-display); font-size: 30px; font-weight: 300; font-style: italic; color: var(--off-white); line-height: 1.15; }
-  .sheet-title strong { font-style: normal; font-weight: 600; display: block; font-size: 34px; }
-  .sheet-for { font-family: var(--font-body); font-size: 10px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.88); margin-top: 6px; }
-  .sheet-close { background: none; border: none; cursor: pointer; color: rgba(61, 186, 255, 0.45); padding: 4px; transition: color 200ms; -webkit-tap-highlight-color: transparent; }
-  .sheet-close:hover { color: rgba(127, 200, 255, 0.95); }
 
-  .form-field { margin-bottom: 14px; }
+  .form-topbar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 0 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    margin-bottom: 24px;
+    flex-shrink: 0;
+  }
+
+  .back-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 4px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-family: var(--font-body); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.95);
+    transition: all 180ms var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+  }
+  .back-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.50);
+    color: #ffffff;
+  }
+  .back-btn:active { transform: scale(0.96); }
+
+  .form-topbar-title {
+    flex: 1;
+  }
+  .form-topbar-label {
+    font-family: var(--font-body); font-size: 9.5px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.72); margin-bottom: 2px;
+  }
+  .form-topbar-name {
+    font-family: var(--font-display); font-size: 22px; font-weight: 600;
+    font-style: italic; color: rgba(255, 255, 255, 0.96);
+    letter-spacing: 0.01em; line-height: 1.1;
+  }
+
+  /* ── FORM FIELDS ── */
+  .form-body { flex: 1; padding-bottom: 40px; }
+
+  .form-field { margin-bottom: 18px; }
   .form-label {
     display: block; font-family: var(--font-body);
     font-size: 10px; font-weight: 600;
     letter-spacing: 0.20em; text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.88); margin-bottom: 7px;
+    color: rgba(255, 255, 255, 0.92); margin-bottom: 8px;
   }
+
+  /* High-contrast white inputs */
   .form-input, .form-textarea {
     width: 100%;
     background: #ffffff;
-    border: 1.5px solid rgba(0, 150, 200, 0.28);
+    border: 2px solid rgba(0, 100, 150, 0.22);
     border-radius: 4px;
-    padding: 12px 14px;
+    padding: 13px 16px;
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
-    color: #005A8F;
+    color: #0a2a3f;
     outline: none;
     transition: border-color 200ms, box-shadow 200ms;
     -webkit-appearance: none; appearance: none;
   }
   .form-input::placeholder, .form-textarea::placeholder {
-    color: rgba(0, 150, 200, 0.45);
+    color: rgba(0, 80, 120, 0.38);
     font-weight: 400;
   }
   .form-input:focus, .form-textarea:focus {
     border-color: #0077AA;
-    box-shadow: 0 0 0 3px rgba(0, 150, 200, 0.10);
+    box-shadow: 0 0 0 3px rgba(0, 119, 170, 0.15);
     background: #fff;
   }
-  .form-textarea { resize: none; height: 80px; line-height: 1.55; }
-  .service-chips-form { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .form-textarea { resize: none; height: 90px; line-height: 1.6; }
+
+  /* Chip selection — Signature UX */
+  .service-chips-form { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
   .service-chip-form {
-    font-family: var(--font-body); font-size: 15px; font-weight: 500;
-    color: rgba(255, 255, 255, 0.92);
-    padding: 10px 20px;
-    border: 1.5px solid rgba(0, 150, 200, 0.46);
-    border-radius: 2px; cursor: pointer;
-    background: rgba(61, 186, 255, 0.07);
-    transition: all 180ms var(--ease-out);
+    position: relative;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    color: rgba(255, 255, 255, 0.90);
+    padding: 9px 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    border-radius: 3px; cursor: pointer;
+    background: rgba(255, 255, 255, 0.08);
+    transition: all 200ms var(--ease-out);
     -webkit-tap-highlight-color: transparent;
+    display: flex; align-items: center; gap: 6px;
   }
   .service-chip-form:hover {
-    background: rgba(61, 186, 255, 0.14);
-    border-color: rgba(0, 150, 200, 0.72);
-    color: rgba(255, 255, 255, 0.96);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.46);
+    color: #ffffff;
   }
   .service-chip-form.selected {
-    background: rgba(34, 140, 74, 0.18);
-    border-color: rgba(52, 190, 100, 0.70);
-    color: rgba(80, 230, 130, 0.95);
-    box-shadow: 0 0 10px rgba(40, 180, 80, 0.12);
+    background: rgba(30, 160, 80, 0.22);
+    border-color: rgba(50, 200, 100, 0.75);
+    color: rgba(100, 240, 150, 0.98);
+    box-shadow: 0 0 12px rgba(40, 180, 80, 0.18);
   }
+  .chip-x {
+    display: none;
+    width: 14px; height: 14px;
+    background: rgba(50, 200, 100, 0.25);
+    border-radius: 50%;
+    align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 150ms;
+  }
+  .service-chip-form.selected .chip-x { display: flex; }
+  .chip-x svg { display: block; }
 
   .form-hint {
     font-family: var(--font-body); font-size: 12px; font-weight: 400;
-    color: rgba(255, 255, 255, 0.80); line-height: 1.6; margin-bottom: 12px;
+    color: rgba(255, 255, 255, 0.88); line-height: 1.6; margin-bottom: 12px;
   }
-  .time-opt-rows { display: flex; flex-direction: column; gap: 9px; }
-  .time-opt-row  { display: flex; flex-direction: column; gap: 4px; }
-  .time-opt-label { font-family: var(--font-body); font-size: 9.5px; font-weight: 600; letter-spacing: 0.20em; text-transform: uppercase; color: rgba(255, 255, 255, 0.72); }
-  .time-opt-label .req     { color: rgba(255, 255, 255, 0.90); }
-  .time-opt-label .opt-tag { color: rgba(255, 255, 255, 0.55); font-weight: 400; }
-  .time-error { font-family: var(--font-body); font-size: 11.5px; font-weight: 500; color: rgba(255, 110, 125, 0.95); margin-top: 5px; min-height: 14px; letter-spacing: 0.01em; }
 
+  /* Date/time rows */
+  .time-opt-rows { display: flex; flex-direction: column; gap: 12px; }
+  .time-opt-row  { display: flex; flex-direction: column; gap: 5px; }
+  .time-opt-label {
+    font-family: var(--font-body); font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.20em; text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .time-opt-label .req     { color: #ffffff; }
+  .time-opt-label .opt-tag { color: rgba(255, 255, 255, 0.60); font-weight: 400; }
+  .time-error {
+    font-family: var(--font-body); font-size: 11.5px; font-weight: 500;
+    color: rgba(255, 110, 125, 0.95); margin-top: 5px; min-height: 14px;
+    letter-spacing: 0.01em;
+  }
+
+  .datetime-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .datetime-row .form-input.date-input { flex: 3; }
+  .datetime-row .form-input.time-input { flex: 2; }
+  @media (max-width: 340px) {
+    .datetime-row { flex-direction: column; }
+    .datetime-row .form-input.date-input,
+    .datetime-row .form-input.time-input { flex: none; width: 100%; }
+  }
+  .form-input.field-error {
+    border-color: rgba(220, 70, 90, 0.80) !important;
+    box-shadow: 0 0 0 3px rgba(220, 70, 90, 0.12) !important;
+  }
+
+  /* Submit button */
   .submit-btn {
-    width: 100%; padding: 16px;
+    width: 100%; padding: 17px;
     background: linear-gradient(105deg, #004F7A 0%, #008FBD 30%, #00C8E8 52%, #008FBD 72%, #004F7A 100%);
     background-size: 250% 100%; background-position: 100% 0;
     border: 1px solid rgba(61, 186, 255, 0.32); border-radius: 4px;
@@ -432,24 +521,6 @@
   .anim-d5 { animation-delay: 420ms; }
   .anim-d6 { animation-delay: 510ms; }
   .anim-d7 { animation-delay: 600ms; }
-
-  .datetime-row {
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-  }
-  .datetime-row .form-input.date-input { flex: 3; }
-  .datetime-row .form-input.time-input { flex: 2; }
-  @media (max-width: 340px) {
-    .datetime-row { flex-direction: column; }
-    .datetime-row .form-input.date-input,
-    .datetime-row .form-input.time-input { flex: none; width: 100%; }
-  }
-  .form-input.field-error {
-    border-color: rgba(220, 70, 90, 0.70) !important;
-    box-shadow: 0 0 0 3px rgba(220, 70, 90, 0.10) !important;
-    background: rgba(255, 248, 250, 1) !important;
-  }
 </style>
 </head>
 <body>
@@ -465,250 +536,248 @@
   </defs>
 </svg>
 
-<main>
+<!-- ══════════════════════════════════════
+     SCREEN 1 — HOME
+══════════════════════════════════════ -->
+<div class="screen screen-home" id="screenHome">
+  <div class="home-inner">
 
-  <div class="cover-section anim anim-d1">
-    <div class="cover-section-img"></div>
-    <div class="cover-section-vignette"></div>
-  </div>
-
-  <div class="profile-junction anim anim-d2">
-
-    <svg class="bridge-svg"
-         viewBox="0 0 100 20"
-         preserveAspectRatio="none"
-         xmlns="http://www.w3.org/2000/svg"
-         aria-hidden="true">
-      <path class="bridge-base"    d="M 0 0 Q 50 40 100 0"/>
-      <path class="bridge-shine-l" d="M 0 0 Q 50 40 100 0"/>
-      <path class="bridge-shine-r" d="M 100 0 Q 50 40 0 0"/>
-    </svg>
-
-    <div class="profile-logo-circle" aria-hidden="true">
-      <svg width="58" height="58" viewBox="0 0 28 28" fill="none">
-        <path d="M14 2L15.8 8.4L22 6.8L18.2 12L22 17.2L15.8 15.6L14 22L12.2 15.6L6 17.2L9.8 12L6 6.8L12.2 8.4Z"
-              fill="none" stroke="rgba(61,186,255,0.66)" stroke-width="0.85"/>
-        <circle cx="14" cy="12" r="2.8" fill="rgba(0,150,200,0.52)"/>
-        <circle cx="14" cy="12" r="1.1" fill="rgba(61,186,255,0.74)"/>
-      </svg>
+    <div class="cover-section anim anim-d1">
+      <div class="cover-section-img"></div>
+      <div class="cover-section-vignette"></div>
     </div>
 
-  </div>
-
-  <div class="profile-identity-text anim anim-d3">
-    <h1 class="profile-studio-name">Nail Studio</h1>
-    <p class="profile-tagline">
-      Cada detalhe pensado para <em>você</em>.<br>
-      Do preparo ao acabamento — <em>sem pressa, sem descuido.</em>
-    </p>
-  </div>
-
-  <div class="section-divider anim anim-d4">
-    <div class="divider-line"></div>
-    <div class="divider-diamond"></div>
-    <div class="divider-line" style="background:linear-gradient(90deg,rgba(26,79,112,0.2),rgba(0,150,200,0.5))"></div>
-  </div>
-
-  <div class="professionals anim anim-d5">
-
-    <a class="insta-btn" href="https://instagram.com/atelierdasmaos" target="_blank" rel="noopener" aria-label="Instagram">
-      <div class="insta-btn-glow"></div>
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-        <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="rgba(255,240,250,0.85)" stroke-width="1.6"/>
-        <circle cx="12" cy="12" r="4.2" stroke="rgba(255,240,250,0.85)" stroke-width="1.6"/>
-        <circle cx="17.2" cy="6.8" r="1.1" fill="rgba(255,240,250,0.85)"/>
+    <div class="profile-junction anim anim-d2">
+      <svg class="bridge-svg"
+           viewBox="0 0 100 20"
+           preserveAspectRatio="none"
+           xmlns="http://www.w3.org/2000/svg"
+           aria-hidden="true">
+        <path class="bridge-base"    d="M 0 0 Q 50 40 100 0"/>
+        <path class="bridge-shine-l" d="M 0 0 Q 50 40 100 0"/>
+        <path class="bridge-shine-r" d="M 100 0 Q 50 40 0 0"/>
       </svg>
-      <div class="insta-label">
-        <div class="insta-role">Nos siga no</div>
-        <div class="insta-name">@atelierdasmaos</div>
-      </div>
-      <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M6 3L11 8L6 13" stroke="rgba(255,220,240,0.75)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
 
-    <button class="pro-btn" onclick="openSheet('leticia')" aria-label="Agendar com Letícia">
-      <div class="glow-ring"></div>
-      <div class="pro-avatar-placeholder"><span>L</span></div>
-      <div class="pro-info">
-        <div class="pro-role">Manicure Senior</div>
-        <div class="pro-name">Letícia</div>
-        <div class="pro-action">Agendar pelo WhatsApp</div>
-      </div>
-      <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M6 3L11 8L6 13" stroke="rgba(255,255,255,0.72)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-
-    <button class="pro-btn" onclick="openSheet('maria')" aria-label="Agendar com Maria">
-      <div class="glow-ring"></div>
-      <div class="pro-avatar-placeholder"><span>M</span></div>
-      <div class="pro-info">
-        <div class="pro-role">Manicure &amp; Nail Art</div>
-        <div class="pro-name">Maria</div>
-        <div class="pro-action">Agendar pelo WhatsApp</div>
-      </div>
-      <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M6 3L11 8L6 13" stroke="rgba(255,255,255,0.72)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </div>
-
-  <div class="services-section anim anim-d6">
-    <div class="services-label">Serviços</div>
-    <div class="services-chips">
-      <span class="chip">Unhas em Gel</span>
-      <span class="chip">Fibra de Vidro</span>
-      <span class="chip">Manutenção</span>
-      <span class="chip">Nail Art</span>
-      <span class="chip">Esmaltação</span>
-      <span class="chip">Remoção</span>
-      <span class="chip">Cutículas</span>
-    </div>
-  </div>
-
-  <div class="section-divider anim anim-d6">
-    <div class="divider-line"></div>
-    <div class="divider-diamond"></div>
-    <div class="divider-line" style="background:linear-gradient(90deg,rgba(26,79,112,0.2),rgba(0,150,200,0.5))"></div>
-  </div>
-
-  <div class="location-section anim anim-d7">
-    <div class="location-label">Localização</div>
-    <div class="location-row">
-      <div class="location-address">
-        Rua das Flores, 214<br>Sala 03 — Centro<br>João Pessoa, PB
-      </div>
-      <button class="copy-btn" onclick="copyAddress(this)" aria-label="Copiar endereço">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          <rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.1"/>
-          <path d="M3 8H2C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2V3" stroke="currentColor" stroke-width="1.1"/>
+      <div class="profile-logo-circle" aria-hidden="true">
+        <svg width="58" height="58" viewBox="0 0 28 28" fill="none">
+          <path d="M14 2L15.8 8.4L22 6.8L18.2 12L22 17.2L15.8 15.6L14 22L12.2 15.6L6 17.2L9.8 12L6 6.8L12.2 8.4Z"
+                fill="none" stroke="rgba(61,186,255,0.66)" stroke-width="0.85"/>
+          <circle cx="14" cy="12" r="2.8" fill="rgba(0,150,200,0.52)"/>
+          <circle cx="14" cy="12" r="1.1" fill="rgba(61,186,255,0.74)"/>
         </svg>
-        <span class="copy-text">Copiar</span>
-      </button>
-    </div>
-  </div>
-
-  <footer class="anim anim-d7">
-    <span class="footer-text">© 2025 Atelier das Mãos</span>
-    <div class="footer-ornament">
-      <div class="footer-dot"></div>
-      <div class="footer-dot" style="opacity:0.5"></div>
-      <div class="footer-dot" style="opacity:0.25"></div>
-    </div>
-  </footer>
-
-</main>
-
-<div class="sheet-overlay" id="sheetOverlay" onclick="handleOverlayClick(event)">
-  <div class="sheet" id="sheet" role="dialog" aria-modal="true">
-
-    <div class="sheet-handle" onclick="closeSheet()">
-      <div class="sheet-handle-bar"></div>
-    </div>
-
-    <div class="sheet-header">
-      <div>
-        <div class="sheet-title">Agendar<br><strong>Horário</strong></div>
-        <div class="sheet-for" id="sheetFor">com Letícia</div>
       </div>
-      <button class="sheet-close" onclick="closeSheet()" aria-label="Fechar">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M4 4L14 14M14 4L4 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>
-      </button>
     </div>
 
-    <div class="form-field">
-      <label class="form-label" for="clientName">Seu nome</label>
-      <input class="form-input" id="clientName" type="text" placeholder="Como prefere ser chamada?">
-    </div>
-
-    <div class="form-field">
-      <label class="form-label">Serviço desejado</label>
-      <div class="service-chips-form">
-        <button class="service-chip-form" onclick="selectChip(this)">Unhas em Gel</button>
-        <button class="service-chip-form" onclick="selectChip(this)">Fibra de Vidro</button>
-        <button class="service-chip-form" onclick="selectChip(this)">Manutenção</button>
-        <button class="service-chip-form" onclick="selectChip(this)">Nail Art</button>
-        <button class="service-chip-form" onclick="selectChip(this)">Esmaltação</button>
-        <button class="service-chip-form" onclick="selectChip(this)">Remoção</button>
-        <button class="service-chip-form" onclick="selectChip(this)">Cutículas</button>
-      </div>
-      <input class="form-input" id="serviceInput" type="text" placeholder="Ou descreva aqui..." style="margin-top:0">
-    </div>
-
-    <div class="form-field">
-      <label class="form-label">Datas e horários de preferência</label>
-      <p class="form-hint">
-        Informe até 3 opções. Campos <span style="color:rgba(255,255,255,0.90)">*</span> são obrigatórios.<br>
-        <strong style="color:rgba(255,255,255,0.85)">Exemplo: 01/05/2026 &nbsp;|&nbsp; 18h</strong>
+    <div class="profile-identity-text anim anim-d3">
+      <h1 class="profile-studio-name">Nail Studio</h1>
+      <p class="profile-tagline">
+        Cada detalhe pensado para <em>você</em>.<br>
+        Do preparo ao acabamento — <em>sem pressa, sem descuido.</em>
       </p>
-      <div class="time-opt-rows">
-        <div class="time-opt-row">
-          <span class="time-opt-label">1ª opção <span class="req">*</span></span>
-          <div class="datetime-row">
-            <input class="form-input date-input" id="date1" type="text" inputmode="numeric"
-                   placeholder="DD/MM/AAAA" oninput="formatDate(this)">
-            <input class="form-input time-input" id="time1" type="text" inputmode="numeric"
-                   placeholder="Ex: 18h" oninput="formatTime(this)">
-          </div>
+    </div>
+
+    <div class="section-divider anim anim-d4">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line" style="background:linear-gradient(90deg,rgba(26,79,112,0.2),rgba(0,150,200,0.5))"></div>
+    </div>
+
+    <div class="professionals anim anim-d5">
+
+      <a class="insta-btn" href="https://instagram.com/atelierdasmaos" target="_blank" rel="noopener" aria-label="Instagram">
+        <div class="insta-btn-glow"></div>
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="rgba(255,240,250,0.85)" stroke-width="1.6"/>
+          <circle cx="12" cy="12" r="4.2" stroke="rgba(255,240,250,0.85)" stroke-width="1.6"/>
+          <circle cx="17.2" cy="6.8" r="1.1" fill="rgba(255,240,250,0.85)"/>
+        </svg>
+        <div class="insta-label">
+          <div class="insta-role">Nos siga no</div>
+          <div class="insta-name">@atelierdasmaos</div>
         </div>
-        <div class="time-opt-row">
-          <span class="time-opt-label">2ª opção <span class="req">*</span></span>
-          <div class="datetime-row">
-            <input class="form-input date-input" id="date2" type="text" inputmode="numeric"
-                   placeholder="DD/MM/AAAA" oninput="formatDate(this)">
-            <input class="form-input time-input" id="time2" type="text" inputmode="numeric"
-                   placeholder="Ex: 14h30" oninput="formatTime(this)">
-          </div>
+        <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 3L11 8L6 13" stroke="rgba(255,220,240,0.75)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+
+      <button class="pro-btn" onclick="openForm('leticia')" aria-label="Agendar com Letícia">
+        <div class="glow-ring"></div>
+        <div class="pro-avatar-placeholder"><span>L</span></div>
+        <div class="pro-info">
+          <div class="pro-role">Manicure Senior</div>
+          <div class="pro-name">Letícia</div>
+          <div class="pro-action">Agendar pelo WhatsApp</div>
         </div>
-        <div class="time-opt-row">
-          <span class="time-opt-label">3ª opção <span class="opt-tag">(opcional)</span></span>
-          <div class="datetime-row">
-            <input class="form-input date-input" id="date3" type="text" inputmode="numeric"
-                   placeholder="DD/MM/AAAA" oninput="formatDate(this)">
-            <input class="form-input time-input" id="time3" type="text" inputmode="numeric"
-                   placeholder="Ex: 10h" oninput="formatTime(this)">
-          </div>
+        <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 3L11 8L6 13" stroke="rgba(255,255,255,0.72)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <button class="pro-btn" onclick="openForm('maria')" aria-label="Agendar com Maria">
+        <div class="glow-ring"></div>
+        <div class="pro-avatar-placeholder"><span>M</span></div>
+        <div class="pro-info">
+          <div class="pro-role">Manicure &amp; Nail Art</div>
+          <div class="pro-name">Maria</div>
+          <div class="pro-action">Agendar pelo WhatsApp</div>
         </div>
+        <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 3L11 8L6 13" stroke="rgba(255,255,255,0.72)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="section-divider anim anim-d6">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line" style="background:linear-gradient(90deg,rgba(26,79,112,0.2),rgba(0,150,200,0.5))"></div>
+    </div>
+
+    <div class="location-section anim anim-d7">
+      <div class="location-label">Localização</div>
+      <div class="location-row">
+        <div class="location-address">
+          Rua das Flores, 214<br>Sala 03 — Centro<br>João Pessoa, PB
+        </div>
+        <button class="copy-btn" onclick="copyAddress(this)" aria-label="Copiar endereço">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M3 8H2C1.45 8 1 7.55 1 7V2C1 1.45 1.45 1 2 1H7C7.55 1 8 1.45 8 2V3" stroke="currentColor" stroke-width="1.1"/>
+          </svg>
+          <span class="copy-text">Copiar</span>
+        </button>
       </div>
-      <div class="time-error" id="timeError" role="alert"></div>
     </div>
 
-    <div class="form-field">
-      <label class="form-label" for="notes">Observações</label>
-      <textarea class="form-textarea" id="notes" placeholder="Referência de nail art, informações extras..."></textarea>
-    </div>
-
-    <button class="submit-btn" onclick="sendWhatsApp()">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" fill="rgba(255,255,255,0.95)"/>
-      </svg>
-      Enviar pelo WhatsApp
-    </button>
+    <footer class="anim anim-d7">
+      <span class="footer-text">© 2025 Atelier das Mãos</span>
+      <div class="footer-ornament">
+        <div class="footer-dot"></div>
+        <div class="footer-dot" style="opacity:0.5"></div>
+        <div class="footer-dot" style="opacity:0.25"></div>
+      </div>
+    </footer>
 
   </div>
 </div>
 
+
+<!-- ══════════════════════════════════════
+     SCREEN 2 — FORM
+══════════════════════════════════════ -->
+<div class="screen screen-form" id="screenForm" aria-hidden="true">
+  <div class="form-screen-inner">
+
+    <div class="form-topbar">
+      <button class="back-btn" onclick="closeForm()" aria-label="Voltar">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Voltar
+      </button>
+      <div class="form-topbar-title">
+        <div class="form-topbar-label">Agendamento</div>
+        <div class="form-topbar-name" id="formProName">com Letícia</div>
+      </div>
+    </div>
+
+    <div class="form-body">
+
+      <div class="form-field">
+        <label class="form-label" for="clientName">Seu nome</label>
+        <input class="form-input" id="clientName" type="text" placeholder="Como prefere ser chamada?" autocomplete="name">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Serviço desejado</label>
+        <div class="service-chips-form">
+          <button class="service-chip-form" type="button" onclick="selectChip(this)">Unhas em Gel<span class="chip-x"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="rgba(50,200,100,0.9)" stroke-width="1.4" stroke-linecap="round"/></svg></span></button>
+          <button class="service-chip-form" type="button" onclick="selectChip(this)">Fibra de Vidro<span class="chip-x"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="rgba(50,200,100,0.9)" stroke-width="1.4" stroke-linecap="round"/></svg></span></button>
+          <button class="service-chip-form" type="button" onclick="selectChip(this)">Manutenção<span class="chip-x"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="rgba(50,200,100,0.9)" stroke-width="1.4" stroke-linecap="round"/></svg></span></button>
+          <button class="service-chip-form" type="button" onclick="selectChip(this)">Nail Art<span class="chip-x"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="rgba(50,200,100,0.9)" stroke-width="1.4" stroke-linecap="round"/></svg></span></button>
+          <button class="service-chip-form" type="button" onclick="selectChip(this)">Esmaltação<span class="chip-x"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="rgba(50,200,100,0.9)" stroke-width="1.4" stroke-linecap="round"/></svg></span></button>
+          <button class="service-chip-form" type="button" onclick="selectChip(this)">Remoção<span class="chip-x"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="rgba(50,200,100,0.9)" stroke-width="1.4" stroke-linecap="round"/></svg></span></button>
+          <button class="service-chip-form" type="button" onclick="selectChip(this)">Cutículas<span class="chip-x"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 1.5L6.5 6.5M6.5 1.5L1.5 6.5" stroke="rgba(50,200,100,0.9)" stroke-width="1.4" stroke-linecap="round"/></svg></span></button>
+        </div>
+        <input class="form-input" id="serviceInput" type="text" placeholder="Ou descreva outro serviço...">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="detailsInput">Detalhes do atendimento</label>
+        <textarea class="form-textarea" id="detailsInput" placeholder="Referência de nail art, comprimento desejado, cor, informações extras..."></textarea>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Datas e horários de preferência</label>
+        <p class="form-hint">
+          Informe até 3 opções. A 1ª opção é <strong style="color:rgba(255,255,255,0.92)">obrigatória</strong>.<br>
+          <span style="color:rgba(255,255,255,0.60)">Exemplo: 20/05/2026 &nbsp;|&nbsp; 14h30</span>
+        </p>
+        <div class="time-opt-rows">
+          <div class="time-opt-row">
+            <span class="time-opt-label">1ª opção <span class="req">*</span></span>
+            <div class="datetime-row">
+              <input class="form-input date-input" id="date1" type="text" inputmode="numeric"
+                     placeholder="DD/MM/AAAA" oninput="formatDate(this)">
+              <input class="form-input time-input" id="time1" type="text" inputmode="numeric"
+                     placeholder="Ex: 14h30" oninput="formatTime(this)">
+            </div>
+          </div>
+          <div class="time-opt-row">
+            <span class="time-opt-label">2ª opção <span class="opt-tag">(opcional)</span></span>
+            <div class="datetime-row">
+              <input class="form-input date-input" id="date2" type="text" inputmode="numeric"
+                     placeholder="DD/MM/AAAA" oninput="formatDate(this)">
+              <input class="form-input time-input" id="time2" type="text" inputmode="numeric"
+                     placeholder="Ex: 18h" oninput="formatTime(this)">
+            </div>
+          </div>
+          <div class="time-opt-row">
+            <span class="time-opt-label">3ª opção <span class="opt-tag">(opcional)</span></span>
+            <div class="datetime-row">
+              <input class="form-input date-input" id="date3" type="text" inputmode="numeric"
+                     placeholder="DD/MM/AAAA" oninput="formatDate(this)">
+              <input class="form-input time-input" id="time3" type="text" inputmode="numeric"
+                     placeholder="Ex: 10h" oninput="formatTime(this)">
+            </div>
+          </div>
+        </div>
+        <div class="time-error" id="timeError" role="alert"></div>
+      </div>
+
+      <button class="submit-btn" onclick="sendWhatsApp()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" fill="rgba(255,255,255,0.95)"/>
+        </svg>
+        Enviar pelo WhatsApp
+      </button>
+
+    </div><!-- /form-body -->
+  </div><!-- /form-screen-inner -->
+</div><!-- /screenForm -->
+
+
 <script>
   let currentPro = 'leticia';
-  const phones = { leticia: '5583999999991', maria: '5583999999992' };
+  const phones = { leticia: '5583991816152', maria: '5583991816152' };
   const names  = { leticia: 'Letícia',        maria: 'Maria'         };
 
-  function openSheet(pro) {
+  function openForm(pro) {
     currentPro = pro;
-    document.getElementById('sheetFor').textContent = 'com ' + names[pro];
-    document.getElementById('sheetOverlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => document.getElementById('clientName').focus(), 420);
+    document.getElementById('formProName').textContent = 'com ' + names[pro];
+    document.getElementById('screenHome').classList.add('slide-out');
+    const sf = document.getElementById('screenForm');
+    sf.classList.add('slide-in');
+    sf.setAttribute('aria-hidden', 'false');
+    sf.scrollTop = 0;
+    setTimeout(() => document.getElementById('clientName').focus(), 460);
   }
-  function closeSheet() {
-    document.getElementById('sheetOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function handleOverlayClick(e) {
-    if (e.target === document.getElementById('sheetOverlay')) closeSheet();
+
+  function closeForm() {
+    document.getElementById('screenHome').classList.remove('slide-out');
+    const sf = document.getElementById('screenForm');
+    sf.classList.remove('slide-in');
+    sf.setAttribute('aria-hidden', 'true');
   }
 
   function selectChip(el) {
@@ -756,16 +825,19 @@
 
     if (!d1) return markErr('Por favor, preencha a data da 1ª opção.', 'date1');
     if (!t1) return markErr('Por favor, preencha o horário da 1ª opção.', 'time1');
-    if (!d2) return markErr('Por favor, preencha a data da 2ª opção.', 'date2');
-    if (!t2) return markErr('Por favor, preencha o horário da 2ª opção.', 'time2');
 
     const dateRe = /^\d{2}\/\d{2}\/\d{4}$/;
     const timeRe = /^\d{1,2}h(\d{2})?$/i;
 
     if (!dateRe.test(d1)) return markErr('Data da 1ª opção inválida. Use DD/MM/AAAA', 'date1');
     if (!timeRe.test(t1)) return markErr('Horário da 1ª opção inválido. Ex: 18h ou 18h30', 'time1');
-    if (!dateRe.test(d2)) return markErr('Data da 2ª opção inválida. Use DD/MM/AAAA', 'date2');
-    if (!timeRe.test(t2)) return markErr('Horário da 2ª opção inválido. Ex: 18h ou 18h30', 'time2');
+
+    if (d2 && !t2) return markErr('Por favor, preencha o horário da 2ª opção.', 'time2');
+    if (!d2 && t2) return markErr('Por favor, preencha a data da 2ª opção.', 'date2');
+    if (d2 && t2) {
+      if (!dateRe.test(d2)) return markErr('Data da 2ª opção inválida. Use DD/MM/AAAA', 'date2');
+      if (!timeRe.test(t2)) return markErr('Horário da 2ª opção inválido. Ex: 18h ou 18h30', 'time2');
+    }
 
     if (d3 && !t3) return markErr('Por favor, preencha o horário da 3ª opção.', 'time3');
     if (!d3 && t3) return markErr('Por favor, preencha a data da 3ª opção.', 'date3');
@@ -774,13 +846,19 @@
       if (!timeRe.test(t3)) return markErr('Horário da 3ª opção inválido. Ex: 18h ou 18h30', 'time3');
     }
 
-    const k1 = d1+t1, k2 = d2+t2, k3 = (d3&&t3) ? d3+t3 : null;
-    if (k1===k2) return markErr('1ª e 2ª opção têm o mesmo horário.','date1','time1','date2','time2');
+    const k1 = d1+t1;
+    const k2 = (d2&&t2) ? d2+t2 : null;
+    const k3 = (d3&&t3) ? d3+t3 : null;
+    if (k2&&k1===k2) return markErr('1ª e 2ª opção têm o mesmo horário.','date1','time1','date2','time2');
     if (k3&&k1===k3) return markErr('1ª e 3ª opção têm o mesmo horário.');
-    if (k3&&k2===k3) return markErr('2ª e 3ª opção têm o mesmo horário.');
+    if (k3&&k2&&k2===k3) return markErr('2ª e 3ª opção têm o mesmo horário.');
 
     err.textContent = '';
-    return { v1: d1+' às '+t1, v2: d2+' às '+t2, v3: k3 ? d3+' às '+t3 : null };
+    return {
+      v1: d1+' às '+t1,
+      v2: k2 ? d2+' às '+t2 : null,
+      v3: k3 ? d3+' às '+t3 : null
+    };
   }
 
   function sendWhatsApp() {
@@ -788,20 +866,22 @@
     if (!times) return;
 
     const name = document.getElementById('clientName').value.trim();
-    const chipsSel = [...document.querySelectorAll('.service-chip-form.selected')].map(c => c.textContent.trim()).join(', ');
+    const chipsSel = [...document.querySelectorAll('.service-chip-form.selected')]
+      .map(c => c.childNodes[0].textContent.trim()).join(', ');
     const serviceManual = document.getElementById('serviceInput').value.trim();
     const service = [chipsSel, serviceManual].filter(Boolean).join(' + ');
-    const notes = document.getElementById('notes').value.trim();
+    const details = document.getElementById('detailsInput').value.trim();
 
     let msg = `Olá, ${names[currentPro]}! 🌸\n\nGostaria de agendar um horário.`;
     if (name)    msg += `\n\n*Nome:* ${name}`;
     if (service) msg += `\n*Serviço:* ${service}`;
-    msg += `\n\n*Opções de horário:*\n  1ª: ${times.v1}\n  2ª: ${times.v2}`;
+    if (details) msg += `\n*Detalhes:* ${details}`;
+    msg += `\n\n*Opções de horário:*\n  1ª: ${times.v1}`;
+    if (times.v2) msg += `\n  2ª: ${times.v2}`;
     if (times.v3) msg += `\n  3ª: ${times.v3}`;
-    if (notes)   msg += `\n\n*Obs:* ${notes}`;
 
     window.open(`https://wa.me/${phones[currentPro]}?text=${encodeURIComponent(msg)}`, '_blank');
-    closeSheet();
+    closeForm();
   }
 
   function copyAddress(btn) {
@@ -815,20 +895,7 @@
     else { const t = document.createElement('textarea'); t.value = addr; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); done(); }
   }
 
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
-
-  let startY = 0;
-  const sheet = document.getElementById('sheet');
-  sheet.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
-  sheet.addEventListener('touchmove', e => {
-    if (sheet.scrollTop > 0) return;
-    const dy = e.touches[0].clientY - startY;
-    if (dy > 0) { sheet.style.transform = `translateY(${Math.min(dy*0.6,180)}px)`; sheet.style.transition = 'none'; }
-  }, { passive: true });
-  sheet.addEventListener('touchend', e => {
-    sheet.style.transition = ''; sheet.style.transform = '';
-    if (sheet.scrollTop === 0 && e.changedTouches[0].clientY - startY > 90) closeSheet();
-  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeForm(); });
 </script>
 
 </body>
