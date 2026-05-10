@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atelier das Mãos — Nail Studio</title>
+<title>Clínica Odontológica Premium</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -322,7 +322,7 @@
   .footer-ornament { display: flex; gap: 4px; align-items: center; }
   .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--primary-glow); }
 
-  /* ─── MULTI-STEP FLOW ─── */
+  /* ─── STEP CONTAINER (CHANGE 3: clean per-step) ─── */
   .step-container {
     display: none;
     opacity: 0;
@@ -335,6 +335,77 @@
   .step-container.visible {
     opacity: 1;
     transform: translateX(0);
+  }
+
+  /* ─── CHANGE 1+2: TYPING EFFECT + PREMIUM TYPOGRAPHY ─── */
+  .chat-message {
+    margin-bottom: 24px;
+  }
+
+  /* CHANGE 2: Professional, clinical, premium question typography */
+  .chat-question {
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.50;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+
+  /* CHANGE 1: Typing container — hides content until typed */
+  .typing-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+    min-height: 24px;
+  }
+
+  .typing-text {
+    font-family: 'Jost', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.50;
+    color: #FFFFFF;
+    letter-spacing: 0.01em;
+    display: inline;
+  }
+
+  /* Blinking cursor during typing */
+  .typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: var(--primary-glow);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: cursor-blink 0.75s step-end infinite;
+  }
+
+  .typing-cursor.done {
+    display: none;
+  }
+
+  @keyframes cursor-blink {
+    from, to { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  /* Interaction area fades in only after typing ends */
+  .step-interaction {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out);
+    pointer-events: none;
+  }
+  .step-interaction.revealed {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .chat-input-wrapper {
+    margin-bottom: 16px;
   }
 
   /* ─── FORM ELEMENTS ─── */
@@ -371,38 +442,91 @@
     resize: none; height: 88px; line-height: 1.55; cursor: text;
   }
 
-  /* ─── SERVICE CHIPS (FORM) ─── */
-  .service-chips-form { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
-  .service-chip-form {
-    position: relative;
-    font-family: var(--font-body); font-size: 14px; font-weight: 500;
-    color: #FFFFFF;
-    padding: 10px 18px;
-    border: 2px solid rgba(224,247,255,0.40);
-    border-radius: 4px; cursor: pointer;
-    background: rgba(0,115,178,0.15);
-    transition: all 180ms var(--ease-out);
+  /* ─── OPTION CARDS ─── */
+  .option-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .option-card {
+    background: rgba(0,115,178,0.12);
+    border: 2px solid rgba(224,247,255,0.30);
+    border-radius: 8px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 200ms var(--ease-out);
     -webkit-tap-highlight-color: transparent;
-    display: flex; align-items: center; gap: 7px;
+    text-align: left;
   }
-  .service-chip-form:hover {
-    background: rgba(0,115,178,0.28);
-    border-color: rgba(224,247,255,0.65);
-    color: #FFFFFF;
+
+  .option-card:hover {
+    background: rgba(0,115,178,0.22);
+    border-color: rgba(224,247,255,0.55);
+    transform: translateX(4px);
   }
-  .service-chip-form.selected {
+
+  .option-card.selected {
     background: #1F9D55;
     border-color: #167A40;
+    box-shadow: 0 2px 12px rgba(31,157,85,0.35);
+  }
+
+  .option-card-title {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
     color: #FFFFFF;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .option-card-subtitle {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+
+  /* ─── BUTTON GROUPS ─── */
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .choice-btn {
+    padding: 14px 20px;
+    background: rgba(0,115,178,0.15);
+    border: 2px solid rgba(224,247,255,0.35);
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 180ms var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    text-align: center;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .choice-btn:hover {
+    background: rgba(0,115,178,0.28);
+    border-color: rgba(224,247,255,0.65);
+  }
+
+  .choice-btn.selected {
+    background: #1F9D55;
+    border-color: #167A40;
     box-shadow: 0 2px 10px rgba(31,157,85,0.35);
   }
-  .chip-remove {
-    display: none; align-items: center; justify-content: center;
-    width: 16px; height: 16px; border-radius: 50%;
-    background: rgba(255,255,255,0.25);
-    font-size: 11px; line-height: 1; flex-shrink: 0;
-  }
-  .service-chip-form.selected .chip-remove { display: flex; }
 
   /* ─── DATE/TIME PICKERS ─── */
   .time-opt-rows { display: flex; flex-direction: column; gap: 12px; }
@@ -418,7 +542,6 @@
   .datetime-row .date-input { flex: 3; }
   .datetime-row .time-input { flex: 2; }
 
-  /* prevent manual input — readonly style */
   .form-input[readonly] { cursor: pointer; user-select: none; }
   .form-input[readonly]:focus { border-color: #0077AA; box-shadow: 0 0 0 3px rgba(0,119,170,0.15); }
 
@@ -437,8 +560,15 @@
   }
   .form-hint .hint-req { color: var(--primary-glow); font-weight: 700; }
 
-  /* ─── SUBMIT/CONTINUE BTN ─── */
-  .submit-btn, .continue-btn {
+  /* ─── NAVIGATION BUTTONS ─── */
+  .nav-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .continue-btn, .submit-btn {
     width: 100%; padding: 16px;
     background: linear-gradient(105deg, #004F7A 0%, #0077AA 30%, #00A8D8 52%, #0077AA 72%, #004F7A 100%);
     background-size: 250% 100%; background-position: 100% 0;
@@ -446,14 +576,55 @@
     font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.18em;
     text-transform: uppercase; color: #FFFFFF; cursor: pointer;
     transition: transform 120ms var(--ease-out), box-shadow 120ms var(--ease-out), background-position 600ms ease-in-out;
-    display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
     box-shadow: 0 4px 20px rgba(0,119,170,0.44); -webkit-tap-highlight-color: transparent;
     position: relative; overflow: hidden;
+    min-height: 52px;
   }
-  .submit-btn::before, .continue-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(253,243,234,0.20) 0%, rgba(224,247,255,0.07) 38%, transparent 68%); opacity: 0.75; transition: opacity 300ms var(--ease-out); pointer-events: none; }
-  .submit-btn::after, .continue-btn::after { content: ''; position: absolute; top: 0; left: -90%; width: 55%; height: 100%; background: linear-gradient(102deg, transparent 0%, rgba(253,243,234,0.10) 30%, rgba(253,243,234,0.22) 50%, rgba(253,243,234,0.10) 70%, transparent 100%); transform: skewX(-10deg); animation: gold-shimmer 7s cubic-bezier(0.4,0,0.6,1) infinite; animation-delay: 1.5s; opacity: 0.65; transition: opacity 400ms var(--ease-out); pointer-events: none; }
-  .submit-btn:active, .continue-btn:active { transform: scale(0.982); }
-  .submit-btn:hover, .continue-btn:hover { border-color: rgba(253,243,234,0.54); box-shadow: 0 4px 24px rgba(0,168,216,0.55); background-position: 0% 0; }
+
+  .continue-btn::before, .submit-btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(253,243,234,0.20) 0%, rgba(224,247,255,0.07) 38%, transparent 68%);
+    opacity: 0.75; transition: opacity 300ms var(--ease-out); pointer-events: none;
+  }
+
+  .continue-btn::after, .submit-btn::after {
+    content: ''; position: absolute; top: 0; left: -90%; width: 55%; height: 100%;
+    background: linear-gradient(102deg, transparent 0%, rgba(253,243,234,0.10) 30%, rgba(253,243,234,0.22) 50%, rgba(253,243,234,0.10) 70%, transparent 100%);
+    transform: skewX(-10deg); animation: gold-shimmer 7s cubic-bezier(0.4,0,0.6,1) infinite;
+    animation-delay: 1.5s; opacity: 0.65; transition: opacity 400ms var(--ease-out); pointer-events: none;
+  }
+
+  .continue-btn:active, .submit-btn:active { transform: scale(0.982); }
+  .continue-btn:hover, .submit-btn:hover {
+    border-color: rgba(253,243,234,0.54);
+    box-shadow: 0 4px 24px rgba(0,168,216,0.55);
+    background-position: 0% 0;
+  }
+
+  .back-step-btn {
+    width: 100%;
+    padding: 14px;
+    background: rgba(0,115,178,0.10);
+    border: 1.5px solid rgba(224,247,255,0.25);
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.70);
+    cursor: pointer;
+    transition: all 150ms var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+    min-height: 48px;
+  }
+
+  .back-step-btn:hover {
+    background: rgba(0,115,178,0.18);
+    border-color: rgba(224,247,255,0.45);
+    color: #FFFFFF;
+  }
 
   @keyframes gold-shimmer { 0%,22% { left: -90%; } 72%,100% { left: 180%; } }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
@@ -570,6 +741,44 @@
     background: #0077AA; border-color: #00A8D8; color: #FFFFFF; font-weight: 700;
   }
 
+  /* ─── SUMMARY CARD ─── */
+  .summary-card {
+    background: rgba(0,115,178,0.08);
+    border: 1.5px solid rgba(0,119,170,0.30);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .summary-row {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,119,170,0.15);
+  }
+
+  .summary-row:last-child {
+    border-bottom: none;
+  }
+
+  .summary-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    flex: 0 0 120px;
+  }
+
+  .summary-value {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    line-height: 1.6;
+    flex: 1;
+  }
+
   @media (max-width: 340px) {
     .datetime-row { flex-direction: column; }
     .datetime-row .date-input, .datetime-row .time-input { flex: none; width: 100%; }
@@ -613,10 +822,10 @@
   </div>
 
   <div class="profile-identity-text anim anim-d3">
-    <h1 class="profile-studio-name">Nail Studio</h1>
+    <h1 class="profile-studio-name">Clínica Odontológica</h1>
     <p class="profile-tagline">
-      Cada detalhe pensado para <em>você</em>.<br>
-      Do preparo ao acabamento — <em>sem pressa, sem descuido.</em>
+      Seu sorriso merece <em>cuidado especializado</em>.<br>
+      Tecnologia, experiência e <em>humanização</em> em cada atendimento.
     </p>
   </div>
 
@@ -628,7 +837,7 @@
 
   <div class="professionals anim anim-d5">
 
-    <a class="insta-btn" href="https://instagram.com/atelierdasmaos" target="_blank" rel="noopener" aria-label="Instagram">
+    <a class="insta-btn" href="https://instagram.com/clinicaodonto" target="_blank" rel="noopener" aria-label="Instagram">
       <div class="insta-btn-glow"></div>
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
         <rect x="2" y="2" width="20" height="20" rx="5.5" stroke="rgba(255,240,250,0.92)" stroke-width="1.6"/>
@@ -637,19 +846,19 @@
       </svg>
       <div class="insta-label">
         <div class="insta-role">Nos siga no</div>
-        <div class="insta-name">@atelierdasmaos</div>
+        <div class="insta-name">@clinicaodonto</div>
       </div>
       <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
         <path d="M6 3L11 8L6 13" stroke="rgba(255,240,250,0.80)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </a>
 
-    <button class="pro-btn" onclick="openBooking('leticia')" aria-label="Agendar com Letícia">
+    <button class="pro-btn" onclick="openBooking('dra-ana')" aria-label="Agendar com Dra. Ana">
       <div class="glow-ring"></div>
-      <div class="pro-avatar-placeholder"><span>L</span></div>
+      <div class="pro-avatar-placeholder"><span>A</span></div>
       <div class="pro-info">
-        <div class="pro-role">Manicure Senior</div>
-        <div class="pro-name">Letícia</div>
+        <div class="pro-role">Odontologia Geral</div>
+        <div class="pro-name">Dra. Ana Paula</div>
         <div class="pro-action">Agendar pelo WhatsApp</div>
       </div>
       <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -657,12 +866,12 @@
       </svg>
     </button>
 
-    <button class="pro-btn" onclick="openBooking('maria')" aria-label="Agendar com Maria">
+    <button class="pro-btn" onclick="openBooking('dr-carlos')" aria-label="Agendar com Dr. Carlos">
       <div class="glow-ring"></div>
-      <div class="pro-avatar-placeholder"><span>M</span></div>
+      <div class="pro-avatar-placeholder"><span>C</span></div>
       <div class="pro-info">
-        <div class="pro-role">Manicure &amp; Nail Art</div>
-        <div class="pro-name">Maria</div>
+        <div class="pro-role">Ortodontia &amp; Implantes</div>
+        <div class="pro-name">Dr. Carlos Eduardo</div>
         <div class="pro-action">Agendar pelo WhatsApp</div>
       </div>
       <svg class="pro-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -673,7 +882,7 @@
   </div>
 
   <footer class="anim anim-d5">
-    <span class="footer-text">© 2025 Atelier das Mãos</span>
+    <span class="footer-text">© 2025 Clínica Odontológica</span>
     <div class="footer-ornament">
       <div class="footer-dot"></div>
       <div class="footer-dot" style="opacity:0.5"></div>
@@ -696,131 +905,8 @@
     <div class="booking-topbar-title">Agendamento</div>
   </div>
 
-  <div class="booking-body">
-
-    <!-- STEP 1: Nome -->
-    <div class="step-container" id="step1">
-      <div class="booking-header">
-        <div class="booking-title">Um prazer<br><strong>te ver aqui!</strong></div>
-        <div class="booking-for" id="bookingFor">com Letícia</div>
-      </div>
-
-      <div class="form-section">
-        <label class="form-label" for="clientName">Qual seu nome?</label>
-        <input class="form-input" id="clientName" type="text" placeholder="Como posso te chamar?" autocomplete="given-name">
-        <div class="time-error" id="nameError" role="alert"></div>
-      </div>
-
-      <button class="continue-btn" onclick="goToStep(2)">
-        Continuar
-      </button>
-    </div>
-
-    <!-- STEP 2: Serviço -->
-    <div class="step-container" id="step2">
-      <div class="booking-header">
-        <div class="booking-title">Selecione o<br><strong>serviço desejado</strong></div>
-        <div class="booking-for" id="bookingFor2">com Letícia</div>
-      </div>
-
-      <div class="form-section">
-        <div class="service-chips-form" id="serviceChips">
-          <button class="service-chip-form" onclick="toggleChip(this)" type="button">
-            <span class="chip-label">Unhas em Gel</span><span class="chip-remove">✕</span>
-          </button>
-          <button class="service-chip-form" onclick="toggleChip(this)" type="button">
-            <span class="chip-label">Fibra de Vidro</span><span class="chip-remove">✕</span>
-          </button>
-          <button class="service-chip-form" onclick="toggleChip(this)" type="button">
-            <span class="chip-label">Manutenção</span><span class="chip-remove">✕</span>
-          </button>
-          <button class="service-chip-form" onclick="toggleChip(this)" type="button">
-            <span class="chip-label">Nail Art</span><span class="chip-remove">✕</span>
-          </button>
-          <button class="service-chip-form" onclick="toggleChip(this)" type="button">
-            <span class="chip-label">Esmaltação</span><span class="chip-remove">✕</span>
-          </button>
-          <button class="service-chip-form" onclick="toggleChip(this)" type="button">
-            <span class="chip-label">Remoção</span><span class="chip-remove">✕</span>
-          </button>
-          <button class="service-chip-form" onclick="toggleChip(this)" type="button">
-            <span class="chip-label">Cutículas</span><span class="chip-remove">✕</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="form-section">
-        <label class="form-label" for="serviceDetails">Detalhes do atendimento <span style="color: rgba(224,247,255,0.60); font-weight: 500;">(opcional)</span></label>
-        <textarea class="form-textarea" id="serviceDetails" placeholder="Informações adicionais sobre o serviço..."></textarea>
-      </div>
-
-      <button class="continue-btn" onclick="goToStep(3)">
-        Continuar
-      </button>
-    </div>
-
-    <!-- STEP 3: Data, horário e observações -->
-    <div class="step-container" id="step3">
-      <div class="booking-header">
-        <div class="booking-title">Selecione até 3<br><strong>datas e horários</strong></div>
-        <div class="booking-for" id="bookingFor3">com Letícia</div>
-      </div>
-
-      <div class="form-section">
-        <p class="form-hint">
-          Informe até 3 opções de preferência para facilitar seu atendimento.<br>
-          Apenas a 1ª é <span class="hint-req">obrigatória</span>.
-        </p>
-        <div class="time-opt-rows">
-
-          <div class="time-opt-row">
-            <span class="time-opt-label">1ª opção <span class="req">*</span></span>
-            <div class="datetime-row">
-              <input class="form-input date-input" id="date1" readonly placeholder="Clique para escolher a data"
-                     onclick="openDatePicker(1)" aria-label="Data da 1ª opção">
-              <input class="form-input time-input" id="time1" readonly placeholder="Clique para escolher o horário"
-                     onclick="openTimePicker(1)" aria-label="Horário da 1ª opção">
-            </div>
-          </div>
-
-          <div class="time-opt-row">
-            <span class="time-opt-label">2ª opção <span class="opt-tag">(opcional)</span></span>
-            <div class="datetime-row">
-              <input class="form-input date-input" id="date2" readonly placeholder="Clique para escolher a data"
-                     onclick="openDatePicker(2)" aria-label="Data da 2ª opção">
-              <input class="form-input time-input" id="time2" readonly placeholder="Clique para escolher o horário"
-                     onclick="openTimePicker(2)" aria-label="Horário da 2ª opção">
-            </div>
-          </div>
-
-          <div class="time-opt-row">
-            <span class="time-opt-label">3ª opção <span class="opt-tag">(opcional)</span></span>
-            <div class="datetime-row">
-              <input class="form-input date-input" id="date3" readonly placeholder="Clique para escolher a data"
-                     onclick="openDatePicker(3)" aria-label="Data da 3ª opção">
-              <input class="form-input time-input" id="time3" readonly placeholder="Clique para escolher o horário"
-                     onclick="openTimePicker(3)" aria-label="Horário da 3ª opção">
-            </div>
-          </div>
-
-        </div>
-        <div class="time-error" id="timeError" role="alert"></div>
-      </div>
-
-      <div class="form-section">
-        <label class="form-label" for="notes">Observações <span style="color: rgba(224,247,255,0.60); font-weight: 500;">(opcional)</span></label>
-        <textarea class="form-textarea" id="notes"
-          placeholder="Preferências, referência de nail art, informações importantes..."></textarea>
-      </div>
-
-      <button class="submit-btn" onclick="sendWhatsApp()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" fill="#FFFFFF"/>
-        </svg>
-        Finalizar no WhatsApp
-      </button>
-    </div>
-
+  <div class="booking-body" id="conversationContainer">
+    <!-- Steps injected here dynamically -->
   </div>
 </div>
 
@@ -861,35 +947,634 @@
 
 <script>
 /* ───── CONFIG ───── */
-const WHATSAPP = '5583991816152';
-const proNames = { leticia: 'Letícia', maria: 'Maria' };
-let currentPro = 'leticia';
-let currentStep = 1;
+const WHATSAPP = '83991816152';
+const proNames = {
+  'dra-ana': 'Dra. Ana Paula',
+  'dr-carlos': 'Dr. Carlos Eduardo'
+};
+
+/* ───── GLOBAL STATE ───── */
+let currentPro = 'dra-ana';
+let currentStep = 0;
+let conversationData = {
+  clientName: '',
+  isFirstVisit: null,
+  patientType: '',
+  treatmentType: '',
+  treatmentSubtype: '',
+  childReason: '',
+  additionalInfo: '',
+  cpf: '',
+  whatsapp: '',
+  dates: ['', '', '']
+};
+
+/* ───── CHANGE 3: Step-based navigation with history ───── */
+// Steps: 0=name, 1=firstVisit, 2=patientType, 3=treatment/childReason, 4=treatmentSub, 5=additionalInfo, 6=cpf, 7=whatsapp, 8=dates, 9=summary
+// For child: 3=childReason (no sub), 4=additionalInfo, ...
+// Steps are rendered one at a time; going back restores previous step with saved data.
+
+const STEP_NAME       = 0;
+const STEP_FIRST      = 1;
+const STEP_PATIENT    = 2;
+const STEP_TREATMENT  = 3; // treatment categories OR child reason
+const STEP_SUBTREAT   = 4; // treatment sub-options (skipped for child)
+const STEP_INFO       = 5;
+const STEP_CPF        = 6;
+const STEP_WHATSAPP   = 7;
+const STEP_DATES      = 8;
+const STEP_SUMMARY    = 9;
+
+/* ───── TYPING ENGINE ───── */
+// Renders text letter by letter, then reveals interaction area
+function typeText(element, text, speed, onDone) {
+  let i = 0;
+  const cursor = element.nextElementSibling; // .typing-cursor
+  element.textContent = '';
+  if (cursor) cursor.classList.remove('done');
+
+  function tick() {
+    if (i < text.length) {
+      element.textContent += text[i];
+      i++;
+      // Slight variation for natural feel
+      const delay = speed + (Math.random() * 18 - 9);
+      setTimeout(tick, Math.max(8, delay));
+    } else {
+      if (cursor) cursor.classList.add('done');
+      if (onDone) onDone();
+    }
+  }
+  tick();
+}
+
+function renderStep(stepId) {
+  currentStep = stepId;
+  const container = document.getElementById('conversationContainer');
+
+  // CHANGE 3: Clear screen, show new step fresh
+  container.innerHTML = '';
+  container.scrollTop = 0;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'chat-message';
+  container.appendChild(wrapper);
+
+  buildStep(stepId, wrapper);
+}
+
+function buildStep(stepId, wrapper) {
+  const data = conversationData;
+
+  switch (stepId) {
+    case STEP_NAME:
+      renderTypingStep(wrapper,
+        'Olá, será um prazer atendê-lo(a). Como posso te chamar?',
+        buildNameInteraction
+      );
+      break;
+
+    case STEP_FIRST:
+      renderTypingStep(wrapper,
+        `Perfeito, ${data.clientName}. Será um prazer cuidar do seu sorriso. Essa será sua primeira consulta com a gente?`,
+        buildFirstVisitInteraction
+      );
+      break;
+
+    case STEP_PATIENT:
+      const greet = data.isFirstVisit
+        ? `Seja muito bem-vindo(a) à nossa clínica, ${data.clientName}.`
+        : `Seja muito bem-vindo(a) novamente, ${data.clientName}.`;
+      renderTypingStep(wrapper,
+        `${greet} A consulta será para você, para outro adulto ou para uma criança?`,
+        buildPatientTypeInteraction
+      );
+      break;
+
+    case STEP_TREATMENT:
+      if (data.patientType === 'child') {
+        renderTypingStep(wrapper,
+          'Cuidar dos pequenos exige atenção especial. Qual o motivo da consulta da criança?',
+          buildChildReasonInteraction
+        );
+      } else {
+        renderTypingStep(wrapper,
+          'Para direcionarmos ao profissional ideal, qual tipo de tratamento você está buscando hoje?',
+          buildTreatmentInteraction
+        );
+      }
+      break;
+
+    case STEP_SUBTREAT:
+      renderTypingStep(wrapper,
+        'Ótimo. Para sermos ainda mais precisos, qual das opções abaixo melhor descreve sua necessidade?',
+        buildSubTreatmentInteraction
+      );
+      break;
+
+    case STEP_INFO:
+      renderTypingStep(wrapper,
+        'Existe alguma informação importante que você gostaria de nos contar sobre a consulta?',
+        buildAdditionalInfoInteraction
+      );
+      break;
+
+    case STEP_CPF:
+      renderTypingStep(wrapper,
+        'Para seguirmos com seu cadastro e garantir um atendimento mais ágil, informe o CPF do paciente.',
+        buildCPFInteraction
+      );
+      break;
+
+    case STEP_WHATSAPP:
+      renderTypingStep(wrapper,
+        'Agora informe o número de WhatsApp para contato e confirmação do atendimento.',
+        buildWhatsAppInteraction
+      );
+      break;
+
+    case STEP_DATES:
+      renderTypingStep(wrapper,
+        'Perfeito! Informe até 3 opções de datas e horários de sua preferência.',
+        buildDatesInteraction
+      );
+      break;
+
+    case STEP_SUMMARY:
+      renderTypingStep(wrapper,
+        `Tudo certo, ${data.clientName}! Confira o resumo do seu agendamento antes de confirmar.`,
+        buildSummaryInteraction
+      );
+      break;
+  }
+}
+
+/* ───── Generic typing step renderer ───── */
+function renderTypingStep(wrapper, question, buildInteraction) {
+  wrapper.innerHTML = `
+    <div class="typing-wrapper">
+      <span class="typing-text"></span><span class="typing-cursor"></span>
+    </div>
+    <div class="step-interaction" id="stepInteraction"></div>
+  `;
+
+  const typingEl = wrapper.querySelector('.typing-text');
+  const interactionEl = wrapper.querySelector('#stepInteraction');
+
+  // Speed: ~28ms per char for natural reading pace
+  typeText(typingEl, question, 28, () => {
+    buildInteraction(interactionEl);
+    // Reveal interaction after a small pause
+    setTimeout(() => {
+      interactionEl.classList.add('revealed');
+      // Focus first input if any
+      const firstInput = interactionEl.querySelector('input, textarea');
+      if (firstInput) firstInput.focus();
+    }, 160);
+  });
+}
+
+/* ───── STEP INTERACTION BUILDERS ───── */
+
+function buildNameInteraction(el) {
+  el.innerHTML = `
+    <div class="chat-input-wrapper">
+      <input class="form-input" id="nameInput" type="text"
+             placeholder="Como prefere ser chamado(a)?" autocomplete="given-name"
+             value="${escHtml(conversationData.clientName)}">
+      <div class="time-error" id="nameError" role="alert"></div>
+    </div>
+    <div class="nav-buttons">
+      <button class="continue-btn" onclick="submitName()">Continuar</button>
+    </div>
+  `;
+  const input = el.querySelector('#nameInput');
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') submitName(); });
+}
+
+function submitName() {
+  const input = document.getElementById('nameInput');
+  const error = document.getElementById('nameError');
+  const name = input.value.trim();
+  if (!name) {
+    input.classList.add('field-error');
+    error.textContent = 'Por favor, informe seu nome para continuar.';
+    return;
+  }
+  conversationData.clientName = name;
+  renderStep(STEP_FIRST);
+}
+
+function buildFirstVisitInteraction(el) {
+  const sel0 = conversationData.isFirstVisit === true  ? 'selected' : '';
+  const sel1 = conversationData.isFirstVisit === false ? 'selected' : '';
+  el.innerHTML = `
+    <div class="button-group">
+      <button class="choice-btn ${sel0}" onclick="answerFirstVisit(true, this)">Sim, é minha primeira vez</button>
+      <button class="choice-btn ${sel1}" onclick="answerFirstVisit(false, this)">Não, já sou paciente</button>
+    </div>
+    <div class="nav-buttons">
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+}
+
+function answerFirstVisit(isFirst, btn) {
+  conversationData.isFirstVisit = isFirst;
+  renderStep(STEP_PATIENT);
+}
+
+function buildPatientTypeInteraction(el) {
+  const map = { 'self': 0, 'adult': 1, 'child': 2 };
+  const idx = map[conversationData.patientType] ?? -1;
+  const btns = [
+    { val: 'self',  label: 'Para mim' },
+    { val: 'adult', label: 'Para outro adulto' },
+    { val: 'child', label: 'Para uma criança' },
+  ];
+  el.innerHTML = `
+    <div class="button-group">
+      ${btns.map((b, i) => `
+        <button class="choice-btn ${idx === i ? 'selected' : ''}" onclick="answerPatientType('${b.val}', this)">${b.label}</button>
+      `).join('')}
+    </div>
+    <div class="nav-buttons">
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+}
+
+function answerPatientType(type) {
+  conversationData.patientType = type;
+  renderStep(STEP_TREATMENT);
+}
+
+/* ─── CHANGE 4: Treatment sub-options ─── */
+const treatmentCategories = [
+  { val: 'preventive', label: 'Prevenção e cuidados básicos', sub: 'Limpeza, avaliação, prevenção' },
+  { val: 'treatment',  label: 'Tratamento dentário',          sub: 'Cárie, restauração, canal, dente quebrado' },
+  { val: 'aesthetic',  label: 'Estética do sorriso',          sub: 'Clareamento, facetas, lentes, harmonização' },
+  { val: 'orthodontics',label: 'Ortodontia',                  sub: 'Aparelho, alinhadores, manutenção' },
+  { val: 'implants',   label: 'Implantes e reabilitação oral', sub: 'Implantes, próteses, coroas, mastigação' },
+  { val: 'evaluation', label: 'Não tenho certeza / Avaliação', sub: 'Avaliação completa e orientação profissional' },
+];
+
+const treatmentSubOptions = {
+  preventive:   ['Check-up', 'Limpeza', 'Avaliação', 'Prevenção'],
+  treatment:    ['Cárie', 'Restauração', 'Canal', 'Dente quebrado'],
+  aesthetic:    ['Clareamento', 'Facetas', 'Lentes de contato dental', 'Harmonização orofacial'],
+  orthodontics: ['Aparelho fixo', 'Alinhadores invisíveis', 'Manutenção de aparelho'],
+  implants:     ['Implantes dentários', 'Próteses', 'Coroas', 'Reabilitação mastigatória'],
+  evaluation:   ['Quero uma avaliação completa'],
+};
+
+function buildTreatmentInteraction(el) {
+  el.innerHTML = `
+    <div class="option-cards">
+      ${treatmentCategories.map(t => `
+        <div class="option-card ${conversationData.treatmentType === t.val ? 'selected' : ''}"
+             onclick="selectTreatment('${t.val}')">
+          <div class="option-card-title">${t.label}</div>
+          <div class="option-card-subtitle">${t.sub}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="nav-buttons">
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+}
+
+function selectTreatment(type) {
+  conversationData.treatmentType = type;
+  conversationData.treatmentSubtype = ''; // reset sub
+  renderStep(STEP_SUBTREAT);
+}
+
+function buildSubTreatmentInteraction(el) {
+  const opts = treatmentSubOptions[conversationData.treatmentType] || [];
+  el.innerHTML = `
+    <div class="option-cards">
+      ${opts.map(opt => `
+        <div class="option-card ${conversationData.treatmentSubtype === opt ? 'selected' : ''}"
+             onclick="selectSubTreatment('${escAttr(opt)}')">
+          <div class="option-card-title">${opt}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="nav-buttons">
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+}
+
+function selectSubTreatment(opt) {
+  conversationData.treatmentSubtype = opt;
+  renderStep(STEP_INFO);
+}
+
+const childReasons = [
+  { val: 'routine',    label: 'Consulta de rotina / prevenção', sub: 'Avaliação, limpeza, flúor' },
+  { val: 'cavity',     label: 'Cárie ou dor de dente',          sub: '' },
+  { val: 'growth',     label: 'Acompanhamento do crescimento',  sub: 'Troca dentária, mordida, desenvolvimento' },
+  { val: 'habits',     label: 'Hábitos orais',                  sub: 'Chupeta, mamadeira, sucção do dedo' },
+  { val: 'evaluation', label: 'Quero uma avaliação completa',    sub: '' },
+];
+
+function buildChildReasonInteraction(el) {
+  el.innerHTML = `
+    <div class="option-cards">
+      ${childReasons.map(r => `
+        <div class="option-card ${conversationData.childReason === r.val ? 'selected' : ''}"
+             onclick="selectChildReason('${r.val}')">
+          <div class="option-card-title">${r.label}</div>
+          ${r.sub ? `<div class="option-card-subtitle">${r.sub}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+    <div class="nav-buttons">
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+}
+
+function selectChildReason(reason) {
+  conversationData.childReason = reason;
+  renderStep(STEP_INFO);
+}
+
+function buildAdditionalInfoInteraction(el) {
+  el.innerHTML = `
+    <div class="chat-input-wrapper">
+      <textarea class="form-textarea" id="additionalInfoInput"
+                placeholder="Informações adicionais (opcional)">${escHtml(conversationData.additionalInfo)}</textarea>
+    </div>
+    <div class="nav-buttons">
+      <button class="continue-btn" onclick="submitAdditionalInfo()">Continuar</button>
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+}
+
+function submitAdditionalInfo() {
+  const input = document.getElementById('additionalInfoInput');
+  conversationData.additionalInfo = input.value.trim();
+  renderStep(STEP_CPF);
+}
+
+function buildCPFInteraction(el) {
+  el.innerHTML = `
+    <div class="chat-input-wrapper">
+      <input class="form-input" id="cpfInput" type="text"
+             placeholder="000.000.000-00" maxlength="14"
+             value="${escHtml(conversationData.cpf)}">
+      <div class="time-error" id="cpfError" role="alert"></div>
+    </div>
+    <div class="nav-buttons">
+      <button class="continue-btn" onclick="submitCPF()">Continuar</button>
+      <button class="back-step-btn" onclick="skipCPF()">Pular esta etapa</button>
+    </div>
+    <div class="nav-buttons" style="margin-top:0">
+      <button class="back-step-btn" onclick="goBack()" style="margin-top:4px">← Etapa anterior</button>
+    </div>
+  `;
+  const input = el.querySelector('#cpfInput');
+  input.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length > 9)      v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+    else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+    else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+    e.target.value = v;
+  });
+}
+
+function submitCPF() {
+  const input = document.getElementById('cpfInput');
+  const error = document.getElementById('cpfError');
+  const cpf = input.value.trim();
+  if (!cpf || cpf.replace(/\D/g, '').length < 11) {
+    input.classList.add('field-error');
+    error.textContent = 'Por favor, informe um CPF válido.';
+    return;
+  }
+  conversationData.cpf = cpf;
+  renderStep(STEP_WHATSAPP);
+}
+
+function skipCPF() {
+  conversationData.cpf = '';
+  renderStep(STEP_WHATSAPP);
+}
+
+function buildWhatsAppInteraction(el) {
+  el.innerHTML = `
+    <div class="chat-input-wrapper">
+      <input class="form-input" id="whatsappInput" type="text"
+             placeholder="(00) 00000-0000" maxlength="15"
+             value="${escHtml(conversationData.whatsapp)}">
+      <div class="time-error" id="whatsappError" role="alert"></div>
+    </div>
+    <div class="nav-buttons">
+      <button class="continue-btn" onclick="submitWhatsApp()">Continuar</button>
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+  const input = el.querySelector('#whatsappInput');
+  input.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 11) v = v.slice(0, 11);
+    if (v.length > 10)     v = v.replace(/(\d{2})(\d{5})(\d{1,4})/, '($1) $2-$3');
+    else if (v.length > 6) v = v.replace(/(\d{2})(\d{4})(\d{1,4})/, '($1) $2-$3');
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+    e.target.value = v;
+  });
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') submitWhatsApp(); });
+}
+
+function submitWhatsApp() {
+  const input = document.getElementById('whatsappInput');
+  const error = document.getElementById('whatsappError');
+  const phone = input.value.trim();
+  if (!phone || phone.replace(/\D/g, '').length < 10) {
+    input.classList.add('field-error');
+    error.textContent = 'Por favor, informe um telefone válido.';
+    return;
+  }
+  conversationData.whatsapp = phone;
+  renderStep(STEP_DATES);
+}
+
+function buildDatesInteraction(el) {
+  const d = conversationData.dates;
+  el.innerHTML = `
+    <div class="form-hint">
+      Informe até 3 opções de preferência para facilitar seu atendimento.<br>
+      Apenas a 1ª é <span class="hint-req">obrigatória</span>.
+    </div>
+    <div class="time-opt-rows">
+      <div class="time-opt-row">
+        <span class="time-opt-label">1ª opção <span class="req">*</span></span>
+        <div class="datetime-row">
+          <input class="form-input date-input" id="date1" readonly placeholder="Data"
+                 value="${escHtml(extractDate(d[0]))}"
+                 onclick="openDatePicker(1)" aria-label="Data da 1ª opção">
+          <input class="form-input time-input" id="time1" readonly placeholder="Horário"
+                 value="${escHtml(extractTime(d[0]))}"
+                 onclick="openTimePicker(1)" aria-label="Horário da 1ª opção">
+        </div>
+      </div>
+      <div class="time-opt-row">
+        <span class="time-opt-label">2ª opção <span class="opt-tag">(opcional)</span></span>
+        <div class="datetime-row">
+          <input class="form-input date-input" id="date2" readonly placeholder="Data"
+                 value="${escHtml(extractDate(d[1]))}"
+                 onclick="openDatePicker(2)" aria-label="Data da 2ª opção">
+          <input class="form-input time-input" id="time2" readonly placeholder="Horário"
+                 value="${escHtml(extractTime(d[1]))}"
+                 onclick="openTimePicker(2)" aria-label="Horário da 2ª opção">
+        </div>
+      </div>
+      <div class="time-opt-row">
+        <span class="time-opt-label">3ª opção <span class="opt-tag">(opcional)</span></span>
+        <div class="datetime-row">
+          <input class="form-input date-input" id="date3" readonly placeholder="Data"
+                 value="${escHtml(extractDate(d[2]))}"
+                 onclick="openDatePicker(3)" aria-label="Data da 3ª opção">
+          <input class="form-input time-input" id="time3" readonly placeholder="Horário"
+                 value="${escHtml(extractTime(d[2]))}"
+                 onclick="openTimePicker(3)" aria-label="Horário da 3ª opção">
+        </div>
+      </div>
+    </div>
+    <div class="time-error" id="timeError" role="alert"></div>
+    <div class="nav-buttons">
+      <button class="continue-btn" onclick="submitDates()">Continuar</button>
+      <button class="back-step-btn" onclick="goBack()">← Etapa anterior</button>
+    </div>
+  `;
+}
+
+function extractDate(dateStr) {
+  if (!dateStr) return '';
+  const m = dateStr.match(/^(\d{2}\/\d{2}\/\d{4})/);
+  return m ? m[1] : '';
+}
+function extractTime(dateStr) {
+  if (!dateStr) return '';
+  const m = dateStr.match(/às (\d{2}:\d{2})/);
+  return m ? m[1] : '';
+}
+
+function submitDates() {
+  const times = validateTimes();
+  if (!times) return;
+  conversationData.dates[0] = times.v1;
+  conversationData.dates[1] = times.v2 || '';
+  conversationData.dates[2] = times.v3 || '';
+  renderStep(STEP_SUMMARY);
+}
+
+function buildSummaryInteraction(el) {
+  const data = conversationData;
+  const proName = proNames[currentPro];
+
+  let serviceText = '';
+  if (data.patientType === 'child') {
+    const rMap = {
+      routine: 'Consulta de rotina / prevenção',
+      cavity: 'Cárie ou dor de dente',
+      growth: 'Acompanhamento do crescimento dos dentes',
+      habits: 'Hábitos orais',
+      evaluation: 'Avaliação completa'
+    };
+    serviceText = rMap[data.childReason] || '';
+  } else {
+    const tMap = {
+      preventive: 'Prevenção e cuidados básicos',
+      treatment: 'Tratamento dentário',
+      aesthetic: 'Estética do sorriso',
+      orthodontics: 'Ortodontia',
+      implants: 'Implantes e reabilitação oral',
+      evaluation: 'Avaliação completa'
+    };
+    serviceText = tMap[data.treatmentType] || '';
+    if (data.treatmentSubtype) serviceText += ` — ${data.treatmentSubtype}`;
+  }
+
+  const ptMap = { self: 'Para mim', adult: 'Para outro adulto', child: 'Para uma criança' };
+
+  el.innerHTML = `
+    <div class="summary-card">
+      ${data.clientName ? `<div class="summary-row"><div class="summary-label">Nome</div><div class="summary-value">${escHtml(data.clientName)}</div></div>` : ''}
+      <div class="summary-row"><div class="summary-label">Paciente</div><div class="summary-value">${ptMap[data.patientType] || ''}</div></div>
+      ${serviceText ? `<div class="summary-row"><div class="summary-label">Tratamento</div><div class="summary-value">${escHtml(serviceText)}</div></div>` : ''}
+      ${data.additionalInfo ? `<div class="summary-row"><div class="summary-label">Informações</div><div class="summary-value">${escHtml(data.additionalInfo)}</div></div>` : ''}
+      ${data.cpf ? `<div class="summary-row"><div class="summary-label">CPF</div><div class="summary-value">${escHtml(data.cpf)}</div></div>` : ''}
+      ${data.whatsapp ? `<div class="summary-row"><div class="summary-label">WhatsApp</div><div class="summary-value">${escHtml(data.whatsapp)}</div></div>` : ''}
+      <div class="summary-row">
+        <div class="summary-label">Datas</div>
+        <div class="summary-value">
+          1ª: ${escHtml(data.dates[0] || 'Não informada')}<br>
+          ${data.dates[1] ? `2ª: ${escHtml(data.dates[1])}<br>` : ''}
+          ${data.dates[2] ? `3ª: ${escHtml(data.dates[2])}` : ''}
+        </div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="submit-btn" onclick="sendWhatsApp()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" fill="#FFFFFF"/>
+        </svg>
+        Confirmar no WhatsApp
+      </button>
+      <!-- CHANGE 5: text changed from "Editar cadastro" to "Editar resumo" -->
+      <button class="back-step-btn" onclick="goBack()">Editar resumo</button>
+    </div>
+  `;
+}
+
+/* ───── CHANGE 3: goBack navigation ───── */
+function goBack() {
+  if (currentStep <= STEP_NAME) {
+    closeBooking();
+    return;
+  }
+
+  // Determine previous step
+  let prev = currentStep - 1;
+
+  // If we're at STEP_SUBTREAT and patient is child, skip STEP_SUBTREAT going back
+  // (child has no subtreat, so back from INFO goes to TREATMENT directly)
+  if (currentStep === STEP_INFO && conversationData.patientType === 'child') {
+    prev = STEP_TREATMENT;
+  }
+
+  // If we're at STEP_INFO for adult, prev is STEP_SUBTREAT
+  // (normal flow, handled by currentStep - 1)
+
+  renderStep(prev);
+}
 
 /* ───── BOOKING SCREEN ───── */
 function openBooking(pro) {
   currentPro = pro;
-  currentStep = 1;
+  currentStep = STEP_NAME;
+  conversationData = {
+    clientName: '',
+    isFirstVisit: null,
+    patientType: '',
+    treatmentType: '',
+    treatmentSubtype: '',
+    childReason: '',
+    additionalInfo: '',
+    cpf: '',
+    whatsapp: '',
+    dates: ['', '', '']
+  };
 
-  // Update all booking-for elements
-  document.getElementById('bookingFor').textContent = 'com ' + proNames[pro];
-  document.getElementById('bookingFor2').textContent = 'com ' + proNames[pro];
-  document.getElementById('bookingFor3').textContent = 'com ' + proNames[pro];
-
-  // Reset form
-  document.getElementById('clientName').value = '';
-  document.getElementById('serviceDetails').value = '';
-  document.getElementById('notes').value = '';
-  document.querySelectorAll('.service-chip-form').forEach(c => c.classList.remove('selected'));
-  ['date1','time1','date2','time2','date3','time3'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.value = ''; el.classList.remove('field-error'); }
-  });
-  document.getElementById('nameError').textContent = '';
-  document.getElementById('timeError').textContent = '';
-
-  // Show step 1
-  showStep(1);
+  const container = document.getElementById('conversationContainer');
+  container.innerHTML = '';
 
   const home = document.getElementById('homeScreen');
   const booking = document.getElementById('bookingScreen');
@@ -903,6 +1588,8 @@ function openBooking(pro) {
     });
   });
   setTimeout(() => { home.style.visibility = 'hidden'; }, 300);
+
+  setTimeout(() => renderStep(STEP_NAME), 300);
 }
 
 function closeBooking() {
@@ -916,58 +1603,11 @@ function closeBooking() {
 }
 
 function handleBackButton() {
-  if (currentStep > 1) {
-    goToStep(currentStep - 1);
-  } else {
+  if (currentStep <= STEP_NAME) {
     closeBooking();
+  } else {
+    goBack();
   }
-}
-
-/* ───── STEP NAVIGATION ───── */
-function showStep(stepNum) {
-  document.querySelectorAll('.step-container').forEach(step => {
-    step.classList.remove('active', 'visible');
-  });
-
-  const targetStep = document.getElementById('step' + stepNum);
-  targetStep.classList.add('active');
-
-  const bookingScreen = document.getElementById('bookingScreen');
-  if (bookingScreen) {
-    bookingScreen.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      targetStep.classList.add('visible');
-    });
-  });
-
-  currentStep = stepNum;
-}
-
-function goToStep(stepNum) {
-  if (stepNum === 2 && currentStep === 1) {
-    const name = document.getElementById('clientName').value.trim();
-    const nameError = document.getElementById('nameError');
-
-    if (!name) {
-      document.getElementById('clientName').classList.add('field-error');
-      nameError.textContent = 'Por favor, informe seu nome para continuar.';
-      document.getElementById('clientName').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      return;
-    }
-
-    document.getElementById('clientName').classList.remove('field-error');
-    nameError.textContent = '';
-  }
-
-  showStep(stepNum);
-}
-
-/* ───── SERVICE CHIPS ───── */
-function toggleChip(el) {
-  el.classList.toggle('selected');
 }
 
 /* ───── DATE PICKER ───── */
@@ -979,8 +1619,20 @@ function openDatePicker(n) {
   activeDateField = n;
   document.getElementById('datePickerTitle').textContent = `${n}ª opção — escolha a data`;
   const now = new Date();
-  calYear  = now.getFullYear();
-  calMonth = now.getMonth();
+  const existing = document.getElementById('date' + n).value;
+  if (existing) {
+    const parts = existing.split('/');
+    if (parts.length === 3) {
+      calYear  = parseInt(parts[2]);
+      calMonth = parseInt(parts[1]) - 1;
+    } else {
+      calYear  = now.getFullYear();
+      calMonth = now.getMonth();
+    }
+  } else {
+    calYear  = now.getFullYear();
+    calMonth = now.getMonth();
+  }
   renderCalendar();
   openModal('datePickerModal');
 }
@@ -1124,10 +1776,8 @@ function validateTimes() {
 
   if (!d1) return markErr('Selecione a data da 1ª opção.', 'date1');
   if (!t1) return markErr('Selecione o horário da 1ª opção.', 'time1');
-
   if (d2 && !t2) return markErr('Selecione o horário da 2ª opção.', 'time2');
   if (!d2 && t2) return markErr('Selecione a data da 2ª opção.', 'date2');
-
   if (d3 && !t3) return markErr('Selecione o horário da 3ª opção.', 'time3');
   if (!d3 && t3) return markErr('Selecione a data da 3ª opção.', 'date3');
 
@@ -1145,24 +1795,52 @@ function validateTimes() {
 }
 
 function sendWhatsApp() {
-  const times = validateTimes();
-  if (!times) return;
+  const data = conversationData;
+  const proName = proNames[currentPro];
 
-  const name           = document.getElementById('clientName').value.trim();
-  const chipsSel       = [...document.querySelectorAll('.service-chip-form.selected .chip-label')].map(c => c.textContent.trim()).join(', ');
-  const service        = chipsSel || '';
-  const serviceDetails = document.getElementById('serviceDetails').value.trim();
-  const notes          = document.getElementById('notes').value.trim();
-  const proName        = proNames[currentPro];
+  let serviceText = '';
+  if (data.patientType === 'child') {
+    const rMap = {
+      routine: 'Consulta de rotina/prevenção',
+      cavity: 'Cárie ou dor de dente',
+      growth: 'Acompanhamento do crescimento dos dentes',
+      habits: 'Hábitos orais',
+      evaluation: 'Avaliação completa'
+    };
+    serviceText = rMap[data.childReason] || '';
+  } else {
+    const tMap = {
+      preventive: 'Prevenção e cuidados básicos',
+      treatment: 'Tratamento dentário',
+      aesthetic: 'Estética do sorriso',
+      orthodontics: 'Ortodontia',
+      implants: 'Implantes e reabilitação oral',
+      evaluation: 'Avaliação completa'
+    };
+    serviceText = tMap[data.treatmentType] || '';
+    if (data.treatmentSubtype) serviceText += ` — ${data.treatmentSubtype}`;
+  }
 
-  let msg = `Olá, ${proName}! 🌸\n\nGostaria de agendar um horário.`;
-  if (name)    msg += `\n\n*Nome:* ${name}`;
-  if (service) msg += `\n*Serviço:* ${service}`;
-  if (serviceDetails) msg += `\n*Detalhes:* ${serviceDetails}`;
-  msg += `\n\n*Opções de horário:*\n  1ª: ${times.v1}`;
-  if (times.v2) msg += `\n  2ª: ${times.v2}`;
-  if (times.v3) msg += `\n  3ª: ${times.v3}`;
-  if (notes)   msg += `\n\n*Obs:* ${notes}`;
+  const ptMap = {
+    self: 'para si mesmo(a)',
+    adult: 'para outro adulto',
+    child: 'para uma criança'
+  };
+
+  const isFirstVisitText = data.isFirstVisit ? 'primeira consulta' : 'retorno';
+
+  let msg = `Olá, ${proName}! Gostaria de agendar uma consulta.\n\n`;
+  msg += `👤 *Paciente:* ${data.clientName}\n`;
+  msg += `📋 *Tipo:* Consulta ${ptMap[data.patientType]} (${isFirstVisitText})\n`;
+  if (serviceText) msg += `🦷 *Tratamento:* ${serviceText}\n`;
+  if (data.additionalInfo) msg += `📝 *Informações:* ${data.additionalInfo}\n`;
+  if (data.cpf) msg += `🆔 *CPF:* ${data.cpf}\n`;
+  if (data.whatsapp) msg += `📱 *WhatsApp:* ${data.whatsapp}\n`;
+
+  msg += `\n📅 *Datas de preferência:*\n`;
+  msg += `  1ª opção: ${data.dates[0]}\n`;
+  if (data.dates[1]) msg += `  2ª opção: ${data.dates[1]}\n`;
+  if (data.dates[2]) msg += `  3ª opção: ${data.dates[2]}\n`;
 
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
   closeBooking();
@@ -1171,16 +1849,25 @@ function sendWhatsApp() {
 /* ───── UTILS ───── */
 function pad(n) { return String(n).padStart(2, '0'); }
 
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function escAttr(str) {
+  if (!str) return '';
+  return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
 /* ───── KEYBOARD ───── */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     closeModal('datePickerModal');
     closeModal('timePickerModal');
-    if (currentStep > 1) {
-      goToStep(currentStep - 1);
-    } else {
-      closeBooking();
-    }
   }
 });
 </script>
